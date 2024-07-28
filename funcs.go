@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 )
 
 func Command(page *Page) ([]string, bool) {
@@ -51,6 +52,12 @@ func Command(page *Page) ([]string, bool) {
 			if s == "" {
 				continue
 			}
+			_, err := strconv.Atoi(s)
+			if err != nil {
+				text := fmt.Sprintf("%s must be a number", item.Name)
+				PopupErrorDialog(text)
+				return nil, false
+			}
 			if item.IsMainArg {
 				enableMainArg = true
 				mainArg = s
@@ -69,6 +76,12 @@ func Command(page *Page) ([]string, bool) {
 			if b {
 				args = append(args, item.Tag)
 			}
+		case StringList:
+			v, ok := item.Value()
+			if !ok {
+				return nil, false
+			}
+			args = append(args, v.([]string)...)
 		}
 	}
 	if enableMainArg {

@@ -4,7 +4,6 @@ import (
 	"github.com/ying32/govcl/vcl"
 	"github.com/ying32/govcl/vcl/types"
 	"os/exec"
-	"strconv"
 )
 
 // ::private::
@@ -54,6 +53,7 @@ const (
 	String ValueType = iota
 	Int
 	Bool
+	StringList
 )
 
 var Items map[string][]*Item
@@ -129,6 +129,11 @@ func InitUI() {
 	draw3 := vcl.NewEdit(MainForm)
 	draw3.SetColor(ControlColor)
 	draw3.SetNumbersOnly(true)
+	draw4 := NewMultipleItems(MainForm, func(owner vcl.IComponent) vcl.IWinControl {
+		return NewFileEdit(MainForm, Open)
+	}, func(item *MultipleItem) string {
+		return item.Item.(*FileEdit).Text()
+	})
 	Items = map[string][]*Item{
 		"Draw": {
 			{
@@ -163,15 +168,7 @@ func InitUI() {
 				Label:   "Resolution:",
 				Control: draw3,
 				Value: func() (any, bool) {
-					t := draw3.Text()
-					if t != "" {
-						_, err := strconv.Atoi(draw3.Text())
-						if err != nil {
-							PopupErrorDialog("Resolution must be a number")
-						}
-						return t, err == nil
-					}
-					return "", true
+					return draw3.Text(), true
 				},
 				IsNecessary: false,
 				Tag:         "-r",
@@ -183,20 +180,16 @@ func InitUI() {
 				Label: "Tip: Replace page number with %d",
 			},
 			{
-				Type:  Value,
-				Name:  "Resolution",
-				Label: "Resolution:",
-				Control: NewMultipleItems(MainForm, func(owner vcl.IComponent) vcl.IWinControl {
-					return NewFileEdit(MainForm, Open)
-				}, func(item *MultipleItem) string {
-					return item.Item.(*FileEdit).Text()
-				}),
+				Type:    Value,
+				Name:    "Resolution",
+				Label:   "Resolution:",
+				Control: draw4,
 				Value: func() (any, bool) {
-					return nil, false
+					return draw4.Value(), true
 				},
 				IsNecessary: false,
 				Tag:         "-r",
-				VType:       Int,
+				VType:       StringList,
 				IsMainArg:   false,
 			},
 			// {
