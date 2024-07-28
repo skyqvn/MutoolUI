@@ -65,9 +65,12 @@ var (
 
 func InitUI() {
 	DefaultFont = vcl.NewFont()
+	DefaultFont.SetColor(FontColor)
 	BoldFont = vcl.NewFont()
 	BoldFont.SetStyle(types.NewSet(types.FsBold))
+	BoldFont.SetColor(FontColor)
 	MainForm.SetFont(DefaultFont)
+	MainForm.SetColor(BackgroundColor)
 	MainForm.MainPageControl = vcl.NewPageControl(MainForm)
 	MainForm.MainPageControl.SetAlign(types.AlClient)
 	MainForm.DrawPage = MainForm.MainPageControl.AddTabSheet()
@@ -124,6 +127,7 @@ func InitUI() {
 	draw2 := NewFileEdit(MainForm, Save)
 	draw2.Filter = ImageFilter
 	draw3 := vcl.NewEdit(MainForm)
+	draw3.SetColor(ControlColor)
 	draw3.SetNumbersOnly(true)
 	Items = map[string][]*Item{
 		"Draw": {
@@ -159,11 +163,15 @@ func InitUI() {
 				Label:   "Resolution:",
 				Control: draw3,
 				Value: func() (any, bool) {
-					i, err := strconv.Atoi(draw3.Text())
-					if err != nil {
-						PopupErrorDialog("Resolution must be a number")
+					t := draw3.Text()
+					if t != "" {
+						_, err := strconv.Atoi(draw3.Text())
+						if err != nil {
+							PopupErrorDialog("Resolution must be a number")
+						}
+						return t, err == nil
 					}
-					return i, err == nil
+					return "", true
 				},
 				IsNecessary: false,
 				Tag:         "-r",
@@ -179,7 +187,9 @@ func InitUI() {
 				Name:  "Resolution",
 				Label: "Resolution:",
 				Control: NewMultipleItems(MainForm, func(owner vcl.IComponent) vcl.IWinControl {
-					return vcl.NewEdit(owner)
+					return NewFileEdit(MainForm, Open)
+				}, func(item *MultipleItem) string {
+					return item.Item.(*FileEdit).Text()
 				}),
 				Value: func() (any, bool) {
 					return nil, false
@@ -253,9 +263,15 @@ func (f *TMainForm) OnFormCreate(sender vcl.IObject) {
 }
 
 func NewPage(parent vcl.IWinControl, table []*Item) {
-	p := vcl.NewScrollBox(MainForm)
-	p.SetParent(parent)
+	sp := vcl.NewScrollBox(MainForm)
+	sp.SetAlign(types.AlClient)
+	sp.SetColor(BackgroundColor)
+	sp.SetParent(parent)
+	p := vcl.NewPanel(MainForm)
+	p.SetBevelOuter(types.BvNone)
 	p.SetAlign(types.AlClient)
+	p.SetColor(BackgroundColor)
+	p.SetParent(sp)
 	for i, item := range table {
 		switch item.Type {
 		case Value:
@@ -266,6 +282,7 @@ func NewPage(parent vcl.IWinControl, table []*Item) {
 			itemPanel.SetHeight(ValueItemHeight)
 			itemPanel.SetAlign(types.AlTop)
 			itemPanel.SetBevelOuter(types.BvNone)
+			itemPanel.SetColor(BackgroundColor)
 			label := vcl.NewLabel(MainForm)
 			label.SetParent(itemPanel)
 			label.SetCaption(item.Label)
@@ -274,6 +291,7 @@ func NewPage(parent vcl.IWinControl, table []*Item) {
 			} else {
 				label.SetFont(DefaultFont)
 			}
+			label.SetColor(BackgroundColor)
 			label.SetAlign(types.AlLeft)
 			item.Control.SetAlign(types.AlClient)
 			item.Control.SetParent(itemPanel)
@@ -291,6 +309,7 @@ func NewPage(parent vcl.IWinControl, table []*Item) {
 			panel.SetAlign(types.AlTop)
 			panel.SetBevelOuter(types.BvNone)
 			panel.SetCaption(item.Label)
+			panel.SetColor(TipColor)
 			panel.SetParent(p)
 		}
 	}

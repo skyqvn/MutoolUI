@@ -13,9 +13,8 @@ type
   { TMainForm }
 
   TMainForm = class(TForm)
+    Button1: TButton;
     MainMenu: TMainMenu;
-    Panel1: TPanel;
-    Panel2: TPanel;
   private
 
   public

@@ -28,16 +28,19 @@ func NewFileEdit(owner vcl.IComponent, feType FileEditType) *FileEdit {
 	fe.TPanel = vcl.NewPanel(owner)
 	fe.TPanel.SetBevelOuter(types.BvNone)
 	fe.TPanel.SetHeight(ValueItemHeight)
+	fe.SetColor(ControlColor)
 	fe.Button = vcl.NewButton(owner)
 	fe.Button.SetAlign(types.AlRight)
 	fe.Button.SetCaption("Browse")
 	fe.Button.SetOnClick(func(sender vcl.IObject) {
 		fe.Brose()
 	})
+	// fe.Button.SetColor(BackgroundColor)
 	fe.Button.SetParent(fe.TPanel)
 	fe.Edit = vcl.NewEdit(owner)
 	fe.Edit.SetParent(fe.TPanel)
 	fe.Edit.SetAlign(types.AlClient)
+	fe.Edit.SetColor(ControlColor)
 	return fe
 }
 

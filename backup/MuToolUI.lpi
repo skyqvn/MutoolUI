@@ -93,6 +93,9 @@
       <Item>
         <Name Value="EFOpenError"/>
       </Item>
+      <Item>
+        <Name Value="EReadError"/>
+      </Item>
     </Exceptions>
   </Debugging>
 </CONFIG>

@@ -14,8 +14,6 @@ type
 
   TMainForm = class(TForm)
     MainMenu: TMainMenu;
-    Panel1: TPanel;
-    Panel2: TPanel;
   private
 
   public

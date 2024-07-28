@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 )
 
 func Command(page *Page) ([]string, bool) {
@@ -43,7 +42,7 @@ func Command(page *Page) ([]string, bool) {
 			if !ok {
 				return nil, false
 			}
-			s := strconv.Itoa(v.(int))
+			s := v.(string)
 			if item.IsNecessary && s == "" {
 				text := fmt.Sprintf("The %s fields is necessary", item.Name)
 				PopupErrorDialog(text)

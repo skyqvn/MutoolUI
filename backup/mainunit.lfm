@@ -247,24 +247,14 @@ object MainForm: TMainForm
     0049454E44AE426082
   }
   Menu = MainMenu
-  OnCreate = FormCreate
-  object Panel1: TPanel
-    Left = 0
-    Height = 400
-    Top = 0
-    Width = 170
-    Align = alLeft
-    Caption = 'Panel1'
+  object Button1: TButton
+    Left = 175
+    Height = 25
+    Top = 76
+    Width = 75
+    Caption = 'Button1'
+    Color = clHighlight
     TabOrder = 0
-  end
-  object Panel2: TPanel
-    Left = 170
-    Height = 400
-    Top = 0
-    Width = 170
-    Align = alLeft
-    Caption = 'Panel2'
-    TabOrder = 1
   end
   object MainMenu: TMainMenu
     Left = 152
