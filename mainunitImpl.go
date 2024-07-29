@@ -8,9 +8,9 @@ import (
 
 // ::private::
 type TMainFormFields struct {
-	MainPageControl                  *vcl.TPageControl
-	DrawPage, MergePage, ConvertPage *vcl.TTabSheet
-	RunButton                        *vcl.TButton
+	MainPageControl                              *vcl.TPageControl
+	DrawPage, MergePage, ConvertPage, PosterPage *vcl.TTabSheet
+	RunButton                                    *vcl.TButton
 }
 
 type Page struct {
@@ -76,6 +76,7 @@ func InitUI() {
 	MainForm.DrawPage = MainForm.MainPageControl.AddTabSheet()
 	MainForm.MergePage = MainForm.MainPageControl.AddTabSheet()
 	MainForm.ConvertPage = MainForm.MainPageControl.AddTabSheet()
+	MainForm.PosterPage = MainForm.MainPageControl.AddTabSheet()
 	MainForm.MainPageControl.SetParent(MainForm)
 	MainForm.RunButton = vcl.NewButton(MainForm)
 	MainForm.RunButton.SetCaption("Run")
@@ -112,28 +113,71 @@ func InitUI() {
 			Command: "draw",
 			Page:    MainForm.DrawPage,
 		},
-		// {
-		// 	Name:    "Merge",
-		// 	Command: "merge",
-		// 	Page:    MainForm.MergePage,
-		// },
-		// {
-		// 	Name: "Convert",
-		// 	Page: MainForm.ConvertPage,
-		// },
+		{
+			Name:    "Merge",
+			Command: "merge",
+			Page:    MainForm.MergePage,
+		},
+		{
+			Name:    "Convert",
+			Command: "convert",
+			Page:    MainForm.ConvertPage,
+		},
+		{
+			Name:    "Poster",
+			Command: "poster",
+			Page:    MainForm.PosterPage,
+		},
 	}
 	draw1 := NewFileEdit(MainForm, Open)
 	draw1.Filter = DocumentFilter
 	draw2 := NewFileEdit(MainForm, Save)
 	draw2.Filter = ImageFilter
+	draw2.FileName = "out.png"
 	draw3 := vcl.NewEdit(MainForm)
 	draw3.SetColor(ControlColor)
 	draw3.SetNumbersOnly(true)
-	draw4 := NewMultipleItems(MainForm, func(owner vcl.IComponent) vcl.IWinControl {
-		return NewFileEdit(MainForm, Open)
-	}, func(item *MultipleItem) string {
-		return item.Item.(*FileEdit).Text()
+	draw4 := vcl.NewEdit(MainForm)
+	draw4.SetPasswordChar('*')
+	draw4.SetColor(ControlColor)
+	merge1 := NewMultipleItems(MainForm, func(owner vcl.IComponent) vcl.IWinControl {
+		fe := NewFileEdit(MainForm, Open)
+		fe.Filter = DocumentFilter
+		return NewPageSelector(MainForm, fe, func(item vcl.IWinControl) string {
+			return item.(*FileEdit).Text()
+		})
+	}, func(item *MultipleItem) []string {
+		return item.Item.(*PageSelector).Value()
 	})
+	merge1.SetColor(ControlColor)
+	merge2 := NewFileEdit(MainForm, Save)
+	merge2.Filter = DocumentFilter
+	merge2.FileName = "out.pdf"
+	merge3 := vcl.NewEdit(MainForm)
+	merge3.SetPasswordChar('*')
+	merge3.SetColor(ControlColor)
+	convert1 := NewFileEdit(MainForm, Open)
+	convert1.Filter = FilterOr(DocumentFilter, ImageFilter)
+	convert2 := NewFileEdit(MainForm, Save)
+	convert2.Filter = DocumentFilter
+	convert2.FileName = "out.pdf"
+	convert3 := vcl.NewEdit(MainForm)
+	convert3.SetPasswordChar('*')
+	convert3.SetColor(ControlColor)
+	poster1 := NewFileEdit(MainForm, Open)
+	poster1.Filter = DocumentFilter
+	poster2 := NewFileEdit(MainForm, Save)
+	poster2.Filter = DocumentFilter
+	poster2.FileName = "out.pdf"
+	poster3 := vcl.NewEdit(MainForm)
+	poster3.SetColor(ControlColor)
+	poster3.SetNumbersOnly(true)
+	poster4 := vcl.NewEdit(MainForm)
+	poster4.SetColor(ControlColor)
+	poster4.SetNumbersOnly(true)
+	poster5 := vcl.NewEdit(MainForm)
+	poster5.SetPasswordChar('*')
+	poster5.SetColor(ControlColor)
 	Items = map[string][]*Item{
 		"Draw": {
 			{
@@ -163,6 +207,10 @@ func InitUI() {
 				IsMainArg:   false,
 			},
 			{
+				Type:  Tip,
+				Label: "Tip: Replace page number with %d",
+			},
+			{
 				Type:    Value,
 				Name:    "Resolution",
 				Label:   "Resolution:",
@@ -176,74 +224,176 @@ func InitUI() {
 				IsMainArg:   false,
 			},
 			{
+				Type:    Value,
+				Name:    "Password",
+				Label:   "Password:",
+				Control: draw4,
+				Value: func() (any, bool) {
+					return draw4.Text(), true
+				},
+				IsNecessary: false,
+				Tag:         "-p",
+				VType:       String,
+				IsMainArg:   false,
+			},
+		},
+		"Merge": {
+			{
+				Type:    Value,
+				Name:    "Source",
+				Label:   "Source:",
+				Control: merge1,
+				Value: func() (any, bool) {
+					return merge1.Value(), true
+				},
+				IsNecessary: true,
+				Tag:         "",
+				VType:       StringList,
+				IsMainArg:   true,
+			},
+			{
 				Type:  Tip,
-				Label: "Tip: Replace page number with %d",
+				Label: "Tip: Comma separated list of page ranges. The first page is “1”, and the last page is “N”. The default is “1-N”.",
+			},
+			{
+				Type:  Tip,
+				Label: "For example: \"1-3,5,7-N\"",
 			},
 			{
 				Type:    Value,
-				Name:    "Resolution",
-				Label:   "Resolution:",
-				Control: draw4,
+				Name:    "Target",
+				Label:   "Target:",
+				Control: merge2,
 				Value: func() (any, bool) {
-					return draw4.Value(), true
+					return merge2.Text(), true
 				},
-				IsNecessary: false,
-				Tag:         "-r",
-				VType:       StringList,
+				IsNecessary: true,
+				Tag:         "-o",
+				VType:       String,
 				IsMainArg:   false,
 			},
-			// {
-			// 	Name:    "Vads",
-			// 	Label:   "Targeddssft:",
-			// 	Control: merge3,
-			// 	Value: func() (any, bool) {
-			// 		i, err := strconv.Atoi(merge3.Text())
-			// 		if err != nil {
-			// 			PopupErrorDialog("XXX must be a number")
-			// 		}
-			// 		return i, err == nil
-			// 	},
-			// 	IsNecessary: false,
-			// 	Tag:         "-f",
-			// 	VType:        Int,
-			// 	IsMainArg:   false,
-			// },
+			{
+				Type:    Value,
+				Name:    "Password",
+				Label:   "Password:",
+				Control: merge3,
+				Value: func() (any, bool) {
+					return merge3.Text(), true
+				},
+				IsNecessary: false,
+				Tag:         "-p",
+				VType:       String,
+				IsMainArg:   false,
+			},
 		},
-		// "Merge": {
-		// 	{
-		// 		Name:    "Source",
-		// 		Label:   "Source:",
-		// 		Control: merge1,
-		// 		Value: func() (any, bool) {
-		// 			return merge1.Text(), true
-		// 		},
-		// 		IsNecessary: true,
-		// 		Tag:         "",
-		// 		VType:        String,
-		// 		IsMainArg:   true,
-		// 	},
-		// 	{
-		// 		Name:    "Target",
-		// 		Label:   "Target:",
-		// 		Control: merge2,
-		// 		Value: func() (any, bool) {
-		// 			return merge2.Text(), true
-		// 		},
-		// 		IsNecessary: true,
-		// 		Tag:         "-o",
-		// 		VType:        String,
-		// 		IsMainArg:   false,
-		// 	},
-		// "Convert": {
-		// 	{
-		// 		Label: "File:",
-		// 		Value: vcl.NewEdit(MainForm),
-		// 	},
-		// 	{
-		// 		Label: "Output:",
-		// 		Value: vcl.NewEdit(MainForm),
-		// 	},
-		// },
+		"Convert": {
+			{
+				Type:    Value,
+				Name:    "Source",
+				Label:   "Source:",
+				Control: convert1,
+				Value: func() (any, bool) {
+					return convert1.Text(), true
+				},
+				IsNecessary: true,
+				Tag:         "",
+				VType:       String,
+				IsMainArg:   true,
+			},
+			{
+				Type:    Value,
+				Name:    "Target",
+				Label:   "Target:",
+				Control: convert2,
+				Value: func() (any, bool) {
+					return convert2.Text(), true
+				},
+				IsNecessary: true,
+				Tag:         "-o",
+				VType:       String,
+				IsMainArg:   false,
+			},
+			{
+				Type:    Value,
+				Name:    "Password",
+				Label:   "Password:",
+				Control: convert3,
+				Value: func() (any, bool) {
+					return convert3.Text(), true
+				},
+				IsNecessary: false,
+				Tag:         "-p",
+				VType:       String,
+				IsMainArg:   false,
+			},
+		},
+		"Poster": {
+			{
+				Type:    Value,
+				Name:    "Source",
+				Label:   "Source:",
+				Control: poster1,
+				Value: func() (any, bool) {
+					return poster1.Text(), true
+				},
+				IsNecessary: true,
+				Tag:         "",
+				VType:       String,
+				IsMainArg:   true,
+			},
+			{
+				Type:    Value,
+				Name:    "Target",
+				Label:   "Target:",
+				Control: poster2,
+				Value: func() (any, bool) {
+					return poster2.Text(), true
+				},
+				IsNecessary: true,
+				Tag:         "",
+				VType:       String,
+				IsMainArg:   true,
+			},
+			{
+				Type:    Value,
+				Name:    "Divide X",
+				Label:   "Divide X:",
+				Control: poster3,
+				Value: func() (any, bool) {
+					return poster3.Text(), true
+				},
+				IsNecessary: true,
+				Tag:         "-x",
+				VType:       Int,
+				IsMainArg:   false,
+			},
+			{
+				Type:    Value,
+				Name:    "Divide Y",
+				Label:   "Divide Y:",
+				Control: poster4,
+				Value: func() (any, bool) {
+					return poster4.Text(), true
+				},
+				IsNecessary: true,
+				Tag:         "-y",
+				VType:       Int,
+				IsMainArg:   false,
+			},
+			{
+				Type:    Value,
+				Name:    "Password",
+				Label:   "Password:",
+				Control: poster5,
+				Value: func() (any, bool) {
+					return poster5.Text(), true
+				},
+				IsNecessary: false,
+				Tag:         "-p",
+				VType:       String,
+				IsMainArg:   false,
+			},
+		},
 	}
 	for _, page := range Pages {
 		page.Page.SetCaption(page.Name)
@@ -294,7 +444,7 @@ func NewPage(parent vcl.IWinControl, table []*Item) {
 			}
 			itemPanel.SetParent(p)
 		case Tip:
-			if i != 0 {
+			if i != 0 && table[i-1].Type != Tip {
 				NewSpace(p)
 			}
 			panel := vcl.NewPanel(MainForm)

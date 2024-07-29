@@ -9,7 +9,7 @@ func Command(page *Page) ([]string, bool) {
 	args := make([]string, 0, 8)
 	args = append(args, page.Command)
 	var enableMainArg = false
-	var mainArg string
+	var mainArg []string
 	for _, item := range Items[page.Name] {
 		if item.Type == Tip {
 			continue
@@ -31,7 +31,7 @@ func Command(page *Page) ([]string, bool) {
 			}
 			if item.IsMainArg {
 				enableMainArg = true
-				mainArg = s
+				mainArg = append(mainArg, s)
 				continue
 			}
 			if item.Tag != "" {
@@ -60,7 +60,7 @@ func Command(page *Page) ([]string, bool) {
 			}
 			if item.IsMainArg {
 				enableMainArg = true
-				mainArg = s
+				mainArg = append(mainArg, s)
 				continue
 			}
 			if item.Tag != "" {
@@ -81,11 +81,16 @@ func Command(page *Page) ([]string, bool) {
 			if !ok {
 				return nil, false
 			}
+			if item.IsMainArg {
+				enableMainArg = true
+				mainArg = append(mainArg, v.([]string)...)
+				continue
+			}
 			args = append(args, v.([]string)...)
 		}
 	}
 	if enableMainArg {
-		args = append(args, mainArg)
+		args = append(args, mainArg...)
 	}
 	return args, true
 }

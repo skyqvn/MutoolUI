@@ -12,7 +12,8 @@ type FileEdit struct {
 	
 	Type FileEditType
 	
-	Filter string
+	Filter   string
+	FileName string
 }
 
 type FileEditType int
@@ -57,11 +58,13 @@ func (fe *FileEdit) Brose() {
 	case Open:
 		dlg := vcl.NewOpenDialog(MainForm)
 		dlg.SetFilter(fe.Filter)
+		dlg.SetFileName(fe.FileName)
 		dlg.Execute()
 		fe.Edit.SetText(dlg.FileName())
 	case Save:
 		dlg := vcl.NewSaveDialog(MainForm)
 		dlg.SetFilter(fe.Filter)
+		dlg.SetFileName(fe.FileName)
 		dlg.Execute()
 		fe.Edit.SetText(dlg.FileName())
 	}
