@@ -14,6 +14,7 @@ type FileEdit struct {
 	
 	Filter   string
 	FileName string
+	Title    string
 }
 
 type FileEditType int
@@ -21,6 +22,7 @@ type FileEditType int
 const (
 	Open FileEditType = iota
 	Save
+	SaveDir
 )
 
 func NewFileEdit(owner vcl.IComponent, feType FileEditType) *FileEdit {
@@ -59,13 +61,43 @@ func (fe *FileEdit) Brose() {
 		dlg := vcl.NewOpenDialog(MainForm)
 		dlg.SetFilter(fe.Filter)
 		dlg.SetFileName(fe.FileName)
+		if fe.Title == "" {
+			dlg.SetTitle("Open existing file")
+		} else {
+			dlg.SetTitle(fe.Title)
+		}
 		dlg.Execute()
-		fe.Edit.SetText(dlg.FileName())
+		fn := dlg.FileName()
+		if fn != "" {
+			fe.Edit.SetText(fn)
+		}
 	case Save:
 		dlg := vcl.NewSaveDialog(MainForm)
 		dlg.SetFilter(fe.Filter)
 		dlg.SetFileName(fe.FileName)
+		if fe.Title == "" {
+			dlg.SetTitle("Save file as")
+		} else {
+			dlg.SetTitle(fe.Title)
+		}
 		dlg.Execute()
-		fe.Edit.SetText(dlg.FileName())
+		fn := dlg.FileName()
+		if fn != "" {
+			fe.Edit.SetText(fn)
+		}
+	case SaveDir:
+		dlg := vcl.NewSelectDirectoryDialog(MainForm)
+		dlg.SetFilter(fe.Filter)
+		dlg.SetFileName(fe.FileName)
+		if fe.Title == "" {
+			dlg.SetTitle("Select directory")
+		} else {
+			dlg.SetTitle(fe.Title)
+		}
+		dlg.Execute()
+		fn := dlg.FileName()
+		if fn != "" {
+			fe.Edit.SetText(fn)
+		}
 	}
 }

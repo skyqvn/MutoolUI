@@ -6,14 +6,14 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ComCtrls,
-  StdCtrls, ExtCtrls, Buttons, Grids, AnchorDockPanel;
+  StdCtrls, ExtCtrls, Buttons, Grids, AnchorDockPanel, TAGraph;
 
 type
 
   { TMainForm }
 
   TMainForm = class(TForm)
-    Button1: TButton;
+    Chart1: TChart;
     MainMenu: TMainMenu;
   private
 
@@ -29,5 +29,6 @@ implementation
 {$R *.lfm}
 
 { TMainForm }
+
 
 end.

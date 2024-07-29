@@ -1,13 +1,11 @@
 object MainForm: TMainForm
   Left = 0
-  Height = 400
+  Height = 600
   Top = 0
-  Width = 600
+  Width = 900
   Caption = 'MuToolUI'
-  ClientHeight = 400
-  ClientWidth = 600
-  Constraints.MinHeight = 400
-  Constraints.MinWidth = 600
+  Constraints.MinHeight = 600
+  Constraints.MinWidth = 900
   Icon.Data = {
     651D000000000100010000000000010020004F1D00001600000089504E470D0A
     1A0A0000000D494844520000015900000145080600000046E69E3B00001D1649
@@ -247,15 +245,6 @@ object MainForm: TMainForm
     0049454E44AE426082
   }
   Menu = MainMenu
-  object Button1: TButton
-    Left = 175
-    Height = 25
-    Top = 76
-    Width = 75
-    Caption = 'Button1'
-    Color = clHighlight
-    TabOrder = 0
-  end
   object MainMenu: TMainMenu
     Left = 152
     Top = 8

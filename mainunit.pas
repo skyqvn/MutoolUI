@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, ComCtrls,
-  StdCtrls, ExtCtrls, Buttons, Grids, AnchorDockPanel;
+  StdCtrls, ExtCtrls, Buttons, Grids, AnchorDockPanel, TAGraph;
 
 type
 
@@ -28,5 +28,6 @@ implementation
 {$R *.lfm}
 
 { TMainForm }
+
 
 end.

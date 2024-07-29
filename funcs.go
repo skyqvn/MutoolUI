@@ -5,11 +5,12 @@ import (
 	"strconv"
 )
 
-func Command(page *Page) ([]string, bool) {
+func Command(page *Page) ([]string, bool, string) {
 	args := make([]string, 0, 8)
 	args = append(args, page.Command)
 	var enableMainArg = false
 	var mainArg []string
+	var dir string
 	for _, item := range Items[page.Name] {
 		if item.Type == Tip {
 			continue
@@ -18,13 +19,13 @@ func Command(page *Page) ([]string, bool) {
 		case String:
 			v, ok := item.Value()
 			if !ok {
-				return nil, false
+				return nil, false, ""
 			}
 			s := v.(string)
 			if item.IsNecessary && s == "" {
 				text := fmt.Sprintf("The %s fields is necessary", item.Name)
 				PopupErrorDialog(text)
-				return nil, false
+				return nil, false, ""
 			}
 			if s == "" {
 				continue
@@ -41,13 +42,13 @@ func Command(page *Page) ([]string, bool) {
 		case Int:
 			v, ok := item.Value()
 			if !ok {
-				return nil, false
+				return nil, false, ""
 			}
 			s := v.(string)
 			if item.IsNecessary && s == "" {
 				text := fmt.Sprintf("The %s fields is necessary", item.Name)
 				PopupErrorDialog(text)
-				return nil, false
+				return nil, false, ""
 			}
 			if s == "" {
 				continue
@@ -56,7 +57,7 @@ func Command(page *Page) ([]string, bool) {
 			if err != nil {
 				text := fmt.Sprintf("%s must be a number", item.Name)
 				PopupErrorDialog(text)
-				return nil, false
+				return nil, false, ""
 			}
 			if item.IsMainArg {
 				enableMainArg = true
@@ -70,7 +71,7 @@ func Command(page *Page) ([]string, bool) {
 		case Bool:
 			v, ok := item.Value()
 			if !ok {
-				return nil, false
+				return nil, false, ""
 			}
 			b := v.(bool)
 			if b {
@@ -79,7 +80,12 @@ func Command(page *Page) ([]string, bool) {
 		case StringList:
 			v, ok := item.Value()
 			if !ok {
-				return nil, false
+				return nil, false, ""
+			}
+			if item.IsNecessary {
+				text := fmt.Sprintf("The %s fields is necessary", item.Name)
+				PopupErrorDialog(text)
+				return nil, false, ""
 			}
 			if item.IsMainArg {
 				enableMainArg = true
@@ -87,12 +93,23 @@ func Command(page *Page) ([]string, bool) {
 				continue
 			}
 			args = append(args, v.([]string)...)
+		case Path:
+			v, ok := item.Value()
+			if !ok {
+				return nil, false, ""
+			}
+			dir = v.(string)
+			if item.IsNecessary && dir == "" {
+				text := fmt.Sprintf("The %s fields is necessary", item.Name)
+				PopupErrorDialog(text)
+				return nil, false, ""
+			}
 		}
 	}
 	if enableMainArg {
 		args = append(args, mainArg...)
 	}
-	return args, true
+	return args, true, dir
 }
 
 func ReverseSlice[T any](s []T) []T {
