@@ -1,0 +1,53 @@
+object SettingForm: TSettingForm
+  Left = 403
+  Height = 240
+  Top = 31
+  Width = 320
+  Caption = 'SettingForm'
+  ClientHeight = 240
+  ClientWidth = 320
+  ParentFont = True
+  ShowInTaskBar = stNever
+  object MainPageControl: TPageControl
+    Left = 0
+    Height = 214
+    Top = 0
+    Width = 320
+    ActivePage = MutoolPage
+    Align = alClient
+    TabIndex = 0
+    TabOrder = 0
+    object MutoolPage: TTabSheet
+      Caption = 'Mutool'
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 26
+    Top = 214
+    Width = 320
+    Align = alBottom
+    BevelOuter = bvNone
+    ClientHeight = 26
+    ClientWidth = 320
+    TabOrder = 1
+    object CancelButton: TButton
+      Left = 170
+      Height = 26
+      Top = 0
+      Width = 75
+      Align = alRight
+      Caption = 'Cancel'
+      TabOrder = 0
+    end
+    object OKButton: TButton
+      Left = 245
+      Height = 26
+      Top = 0
+      Width = 75
+      Align = alRight
+      Caption = 'OK'
+      TabOrder = 1
+    end
+  end
+end

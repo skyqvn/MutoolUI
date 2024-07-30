@@ -54,8 +54,6 @@ var (
 	BoldFont    *vcl.TFont
 )
 
-var Dir = ""
-
 func InitUI() {
 	DefaultFont = vcl.NewFont()
 	DefaultFont.SetColor(FontColor)
@@ -64,6 +62,7 @@ func InitUI() {
 	BoldFont.SetColor(FontColor)
 	MainForm.SetFont(DefaultFont)
 	MainForm.SetColor(BackgroundColor)
+	InitMenu()
 	MainForm.MainPageControl = vcl.NewPageControl(MainForm)
 	MainForm.MainPageControl.SetAlign(types.AlClient)
 	MainForm.DrawPage = MainForm.MainPageControl.AddTabSheet()
@@ -495,6 +494,7 @@ func NewPage(parent vcl.IWinControl, table []*Item) {
 			panel.SetAlign(types.AlTop)
 			panel.SetBevelOuter(types.BvNone)
 			panel.SetCaption(item.Label)
+			panel.SetAlignment(types.TaLeftJustify)
 			panel.SetColor(TipColor)
 			panel.SetParent(p)
 		}
@@ -507,4 +507,28 @@ func NewSpace(parent vcl.IWinControl) {
 	space.SetAlign(types.AlTop)
 	space.SetHeight(SpaceHeight)
 	space.SetParent(parent)
+}
+
+func InitMenu() {
+	MainForm.SettingAction = vcl.NewMenuItem(MainForm)
+	MainForm.SettingAction.SetCaption("Setting")
+	MainForm.SettingAction.SetOnClick(func(sender vcl.IObject) {
+		sf := NewSettingForm(MainForm)
+		sf.ShowModal()
+		sf.SetParent(MainForm)
+		p := vcl.NewPanel(sf)
+		p.SetAlign(types.AlTop)
+		p.SetHeight(ValueItemHeight)
+		l := vcl.NewLabel(sf)
+		l.SetCaption("Mutool Path:")
+		l.SetAlign(types.AlLeft)
+		l.SetParent(p)
+		fe := NewFileEdit(sf, Open)
+		fe.SetAlign(types.AlClient)
+		fe.Filter = ExeFilter
+		fe.FileName = "mutool.exe"
+		fe.SetParent(p)
+		p.SetParent(sf.MutoolPage) // TODO
+	})
+	MainForm.MainMenu.Items().Add(MainForm.SettingAction)
 }

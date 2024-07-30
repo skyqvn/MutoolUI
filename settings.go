@@ -1,22 +1,24 @@
 package main
 
-import "github.com/ying32/govcl/vcl"
+import (
+	"github.com/ying32/govcl/vcl"
+	"strings"
+)
 
 var SettingFile *vcl.TIniFile
 
 var MutoolPath = "mutool"
-
-// var TempDir = "./tmp"
+var MutoolAll []string
 
 func init() {
 	SettingFile = vcl.NewIniFile("config.ini")
 	if SettingFile.SectionExists("Mutool") {
 		MutoolPath = SettingFile.ReadString("Mutool", "Path", "mutool")
-		// TempDir = SettingFile.ReadString("Mutool", "TempDir", "./tmp")
+		MutoolAll = strings.Split(SettingFile.ReadString("Mutool", "All", "mutool"), ";")
 	} else {
 		MutoolPath = "mutool"
 		SettingFile.WriteString("Mutool", "Path", "mutool")
-		// TempDir = "./tmp"
-		// SettingFile.WriteString("Mutool", "TempDir", "./tmp")
+		MutoolAll = []string{"mutool"}
+		SettingFile.WriteString("Mutool", "All", "mutool")
 	}
 }
