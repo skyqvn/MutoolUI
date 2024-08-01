@@ -56,6 +56,9 @@ var (
 )
 
 func InitUI() {
+	MainForm.SetLeft((vcl.Screen.WorkAreaWidth() - MainForm.Width()) / 2)
+	// MainForm.SetTop((vcl.Screen.WorkAreaHeight() - MainForm.Height()) / 2)
+	MainForm.SetTop(30)
 	DefaultFont = vcl.NewFont()
 	DefaultFont.SetColor(FontColor)
 	BoldFont = vcl.NewFont()

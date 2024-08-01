@@ -248,6 +248,7 @@ object SettingForm: TSettingForm
   }
   ParentFont = True
   ShowInTaskBar = stNever
+  LCLVersion = '2.2.6.0'
   object MainPageControl: TPageControl
     Left = 0
     Height = 354

@@ -14,7 +14,7 @@ func init() {
 	SettingFile = vcl.NewIniFile("config.ini")
 	if SettingFile.SectionExists("Mutool") {
 		MutoolPath = SettingFile.ReadString("Mutool", "Active", "mutool")
-		MutoolAll = strings.Split(SettingFile.ReadString("Mutool", "All", "mutool"), ":")
+		MutoolAll = strings.Split(SettingFile.ReadString("Mutool", "All", "mutool"), "|")
 	} else {
 		MutoolPath = "mutool"
 		SettingFile.WriteString("Mutool", "Active", "mutool")
@@ -25,5 +25,5 @@ func init() {
 
 func UpdateMutoolSetting() {
 	SettingFile.WriteString("Mutool", "Active", MutoolPath)
-	SettingFile.WriteString("Mutool", "All", strings.Join(MutoolAll, ":"))
+	SettingFile.WriteString("Mutool", "All", strings.Join(MutoolAll, "|"))
 }
