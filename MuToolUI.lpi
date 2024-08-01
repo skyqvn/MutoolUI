@@ -19,6 +19,7 @@
       <UseOriginalFileName Value="True"/>
       <SaveGfmFile Value="True"/>
       <PackageName Value=""/>
+      <GoBuildMode Value="exe"/>
       <GoRoot Value="C:\Program Files\Go"/>
       <GoUseEmbed Value="True"/>
     </Res2go>
@@ -63,6 +64,14 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="SettingUnit"/>
+      </Unit>
+      <Unit>
+        <Filename Value="edittextunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="EditTextDialog"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="EditTextUnit"/>
       </Unit>
     </Units>
   </ProjectOptions>

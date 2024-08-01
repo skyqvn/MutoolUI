@@ -10,7 +10,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="33" Y="13"/>
-        <UsageCount Value="27"/>
+        <UsageCount Value="40"/>
       </Unit>
       <Unit>
         <Filename Value="mainunit.pas"/>
@@ -20,7 +20,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="MainUnit"/>
         <CursorPos X="33" Y="25"/>
-        <UsageCount Value="27"/>
+        <UsageCount Value="40"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -33,7 +33,22 @@
         <UnitName Value="SettingUnit"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <UsageCount Value="22"/>
+        <TopLine Value="15"/>
+        <CursorPos X="38" Y="31"/>
+        <UsageCount Value="35"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="edittextunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="EditTextDialog"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="EditTextUnit"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="5" Y="35"/>
+        <UsageCount Value="30"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -44,7 +59,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="SettingForm"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="19"/>
       </Unit>
       <Unit>
         <Filename Value="unit1.pas"/>
@@ -52,7 +67,7 @@
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="Unit1"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="23"/>
       </Unit>
       <Unit>
         <Filename Value="setting.pas"/>
@@ -61,101 +76,19 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="36" Y="9"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="19"/>
+      </Unit>
+      <Unit>
+        <Filename Value="edittextunut.pas"/>
+        <ComponentName Value="EditTextDialog"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="EditTextUnit"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="21" Y="7"/>
+        <UsageCount Value="19"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="mainunit.pas"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="21" Column="14"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="22" Column="14"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="23" Column="14"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="24" Column="14"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="23" Column="14"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="22" Column="14"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="21" Column="14"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="13" Column="30"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="19" Column="15"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="17" Column="46"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="17" Column="27" TopLine="12"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="16" Column="32" TopLine="11"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="17" Column="32" TopLine="11"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="16" Column="32" TopLine="11"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="17" Column="32" TopLine="11"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="16" Column="32" TopLine="11"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="17" Column="32" TopLine="11"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="16" Column="32" TopLine="11"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="18" Column="55" TopLine="11"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="31" Column="17" TopLine="12"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="30" Column="17" TopLine="11"/>
-      </Position>
-      <Position>
-        <Filename Value="mainunit.pas"/>
-        <Caret Line="31" Column="17" TopLine="11"/>
-      </Position>
       <Position>
         <Filename Value="mainunit.pas"/>
         <Caret Line="30" Column="17" TopLine="4"/>
@@ -182,6 +115,97 @@
       </Position>
       <Position>
         <Filename Value="settingunit.pas"/>
+      </Position>
+      <Position>
+        <Filename Value="settingunit.pas"/>
+        <Caret Line="23" Column="38" TopLine="10"/>
+      </Position>
+      <Position>
+        <Filename Value="settingunit.pas"/>
+        <Caret Line="22" Column="38" TopLine="9"/>
+      </Position>
+      <Position>
+        <Filename Value="settingunit.pas"/>
+        <Caret Line="23" Column="38" TopLine="9"/>
+      </Position>
+      <Position>
+        <Filename Value="settingunit.pas"/>
+        <Caret Line="24" Column="38" TopLine="9"/>
+      </Position>
+      <Position>
+        <Filename Value="settingunit.pas"/>
+        <Caret Line="25" Column="38" TopLine="9"/>
+      </Position>
+      <Position>
+        <Filename Value="settingunit.pas"/>
+        <Caret Line="24" Column="38" TopLine="9"/>
+      </Position>
+      <Position>
+        <Filename Value="settingunit.pas"/>
+        <Caret Line="25" Column="38" TopLine="9"/>
+      </Position>
+      <Position>
+        <Filename Value="settingunit.pas"/>
+        <Caret Line="26" Column="38" TopLine="9"/>
+      </Position>
+      <Position>
+        <Filename Value="settingunit.pas"/>
+        <Caret Line="27" Column="38" TopLine="9"/>
+      </Position>
+      <Position>
+        <Filename Value="settingunit.pas"/>
+        <Caret Line="26" Column="38" TopLine="9"/>
+      </Position>
+      <Position>
+        <Filename Value="settingunit.pas"/>
+        <Caret Line="30" Column="52" TopLine="13"/>
+      </Position>
+      <Position>
+        <Filename Value="settingunit.pas"/>
+        <Caret Line="32" Column="58" TopLine="17"/>
+      </Position>
+      <Position>
+        <Filename Value="settingunit.pas"/>
+        <Caret Line="31" Column="38" TopLine="15"/>
+      </Position>
+      <Position>
+        <Filename Value="settingunit.pas"/>
+        <Caret Line="32" Column="38" TopLine="15"/>
+      </Position>
+      <Position>
+        <Filename Value="settingunit.pas"/>
+        <Caret Line="31" Column="38" TopLine="15"/>
+      </Position>
+      <Position>
+        <Filename Value="edittextunit.pas"/>
+      </Position>
+      <Position>
+        <Filename Value="edittextunit.pas"/>
+        <Caret Line="16" Column="48"/>
+      </Position>
+      <Position>
+        <Filename Value="edittextunit.pas"/>
+        <Caret Line="17" Column="48"/>
+      </Position>
+      <Position>
+        <Filename Value="edittextunit.pas"/>
+        <Caret Line="16" Column="48"/>
+      </Position>
+      <Position>
+        <Filename Value="edittextunit.pas"/>
+        <Caret Line="17" Column="48"/>
+      </Position>
+      <Position>
+        <Filename Value="edittextunit.pas"/>
+        <Caret Line="18" Column="48"/>
+      </Position>
+      <Position>
+        <Filename Value="edittextunit.pas"/>
+        <Caret Line="30" Column="46"/>
+      </Position>
+      <Position>
+        <Filename Value="edittextunit.pas"/>
+        <Caret Line="34" Column="5"/>
       </Position>
     </JumpHistory>
     <RunParams>

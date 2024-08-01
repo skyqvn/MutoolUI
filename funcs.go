@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/ying32/govcl/vcl"
 	"strconv"
 )
 
@@ -119,4 +120,23 @@ func ReverseSlice[T any](s []T) []T {
 		s2[l-1-i] = s[i]
 	}
 	return s2
+}
+
+func StringsToSlice(strings *vcl.TStrings) []string {
+	c := strings.Count()
+	s := make([]string, c)
+	var i int32
+	for ; i < c; i++ {
+		s[i] = strings.S(i)
+	}
+	return s
+}
+
+func IsIn[T comparable](v T, s []T) bool {
+	for _, v2 := range s {
+		if v2 == v {
+			return true
+		}
+	}
+	return false
 }

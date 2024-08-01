@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/ying32/govcl/vcl"
 	"github.com/ying32/govcl/vcl/types"
+	"github.com/ying32/govcl/vcl/types/colors"
 	"os/exec"
 )
 
@@ -87,8 +88,17 @@ func InitUI() {
 		err := cmd.Start()
 		if err != nil {
 			PopupErrorDialog(err.Error())
+			return
 		}
+		MainForm.RunButton.SetEnabled(false)
+		MainForm.RunButton.SetCaption("Doing···")
 		go func() {
+			defer func() {
+				vcl.ThreadSync(func() {
+					MainForm.RunButton.SetEnabled(true)
+					MainForm.RunButton.SetCaption("Run")
+				})
+			}()
 			err = cmd.Wait()
 			if err == nil {
 				vcl.ThreadSync(func() {
@@ -514,21 +524,53 @@ func InitMenu() {
 	MainForm.SettingAction.SetCaption("Setting")
 	MainForm.SettingAction.SetOnClick(func(sender vcl.IObject) {
 		sf := NewSettingForm(MainForm)
+		sf.ActiveEdit = NewFileEdit(sf, Open)
+		sf.ActiveEdit.SetAlign(types.AlClient)
+		sf.ActiveEdit.Filter = ExeFilter
+		sf.ActiveEdit.FileName = "mutool.exe"
+		sf.ActiveEdit.Edit.SetColor(colors.ClDefault)
+		sf.ActiveEdit.Edit.SetText(MutoolPath)
+		sf.ActiveEdit.SetParent(sf.ActiveEditPanel)
+		sf.AllListBox.Items().AddStrings2(MutoolAll)
+		if sf.AllListBox.Items().Count() != 0 {
+			sf.AllListBox.SetItemIndex(0)
+		}
+		sf.SetAsActiveButton.SetOnClick(func(sender vcl.IObject) {
+			if i := sf.AllListBox.ItemIndex(); i != -1 {
+				sf.ActiveEdit.SetText(sf.AllListBox.Items().S(i))
+			}
+		})
+		sf.AddButton.SetOnClick(func(sender vcl.IObject) {
+			PopupEditTextDialog(sf, "", func(s string) {
+				sf.AllListBox.Items().Add(s)
+				sf.AllListBox.SetItemIndex(sf.AllListBox.Items().Count() - 1)
+			})
+		})
+		sf.EditButton.SetOnClick(func(sender vcl.IObject) {
+			PopupEditTextDialog(sf, sf.AllListBox.Items().S(sf.AllListBox.ItemIndex()), func(s string) {
+				sf.AllListBox.Items().SetS(sf.AllListBox.ItemIndex(), s)
+			})
+		})
+		sf.DeleteButton.SetOnClick(func(sender vcl.IObject) {
+			sf.AllListBox.Items().Delete(sf.AllListBox.ItemIndex())
+			if sf.AllListBox.Items().Count() != 0 {
+				sf.AllListBox.SetItemIndex(0)
+			}
+		})
+		sf.OKButton.SetOnClick(func(sender vcl.IObject) {
+			MutoolPath = sf.ActiveEdit.Text()
+			its := sf.AllListBox.Items()
+			if its.IndexOf(MutoolPath) == -1 {
+				its.Insert(0, MutoolPath)
+			}
+			MutoolAll = StringsToSlice(its)
+			UpdateMutoolSetting()
+			sf.Close()
+		})
+		sf.CancelButton.SetOnClick(func(sender vcl.IObject) {
+			sf.Close()
+		})
 		sf.ShowModal()
-		sf.SetParent(MainForm)
-		p := vcl.NewPanel(sf)
-		p.SetAlign(types.AlTop)
-		p.SetHeight(ValueItemHeight)
-		l := vcl.NewLabel(sf)
-		l.SetCaption("Mutool Path:")
-		l.SetAlign(types.AlLeft)
-		l.SetParent(p)
-		fe := NewFileEdit(sf, Open)
-		fe.SetAlign(types.AlClient)
-		fe.Filter = ExeFilter
-		fe.FileName = "mutool.exe"
-		fe.SetParent(p)
-		p.SetParent(sf.MutoolPage) // TODO
 	})
 	MainForm.MainMenu.Items().Add(MainForm.SettingAction)
 }

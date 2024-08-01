@@ -31,14 +31,12 @@ func NewFileEdit(owner vcl.IComponent, feType FileEditType) *FileEdit {
 	fe.TPanel = vcl.NewPanel(owner)
 	fe.TPanel.SetBevelOuter(types.BvNone)
 	fe.TPanel.SetHeight(ValueItemHeight)
-	fe.SetColor(ControlColor)
 	fe.Button = vcl.NewButton(owner)
 	fe.Button.SetAlign(types.AlRight)
 	fe.Button.SetCaption("Browse")
 	fe.Button.SetOnClick(func(sender vcl.IObject) {
 		fe.Brose()
 	})
-	// fe.Button.SetColor(BackgroundColor)
 	fe.Button.SetParent(fe.TPanel)
 	fe.Edit = vcl.NewEdit(owner)
 	fe.Edit.SetParent(fe.TPanel)
@@ -53,6 +51,10 @@ func (fe *FileEdit) SetParent(value vcl.IWinControl) {
 
 func (fe *FileEdit) Text() string {
 	return fe.Edit.Text()
+}
+
+func (fe *FileEdit) SetText(value string) {
+	fe.Edit.SetText(value)
 }
 
 func (fe *FileEdit) Brose() {

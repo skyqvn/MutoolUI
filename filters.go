@@ -3,7 +3,7 @@ package main
 import "strings"
 
 var (
-	AllFile        = "All File|*"
+	AllFileFilter  = "All File|*"
 	PDFFilter      = "PDF Document|*.pdf"
 	DocumentFilter = "Document|*.pdf;*.svg;*.xps;*.cbz;*.epub;*.mobi;*.fb2"
 	ImageFilter    = "Image|*.png;*.jpg;*.bmp;*.svg"
