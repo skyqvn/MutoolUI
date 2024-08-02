@@ -5,7 +5,7 @@ import "strings"
 var (
 	AllFileFilter  = "All File|*"
 	PDFFilter      = "PDF Document|*.pdf"
-	DocumentFilter = "Document|*.pdf;*.svg;*.xps;*.cbz;*.epub;*.mobi;*.fb2"
+	DocumentFilter = "Document|*.pdf;*.svg;*.xps;*.cbz;*.epub;*.mobi;*.fb2;*.html;*.htm"
 	ImageFilter    = "Image|*.png;*.jpg;*.bmp;*.svg"
 	ExeFilter      = "Executable File|*.exe"
 )

@@ -1,3 +1,9 @@
 /backup/
 /lib/
 /.idea/
+/config.ini
+/MuToolUI.exe
+/MuToolUI.exe~
+/bin/*
+/app/*
+!/app/.keep

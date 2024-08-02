@@ -246,7 +246,7 @@ object MainForm: TMainForm
   }
   Menu = MainMenu
   object MainMenu: TMainMenu
-    Left = 64
+    Left = 48
     Top = 24
   end
 end

@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/ying32/govcl/vcl"
+	"os/exec"
+	"runtime"
 	"strconv"
 )
 
@@ -83,7 +85,8 @@ func Command(page *Page) ([]string, bool, string) {
 			if !ok {
 				return nil, false, ""
 			}
-			if item.IsNecessary {
+			s := v.([]string)
+			if item.IsNecessary && IsEmpty(s) {
 				text := fmt.Sprintf("The %s fields is necessary", item.Name)
 				PopupErrorDialog(text)
 				return nil, false, ""
@@ -93,7 +96,7 @@ func Command(page *Page) ([]string, bool, string) {
 				mainArg = append(mainArg, v.([]string)...)
 				continue
 			}
-			args = append(args, v.([]string)...)
+			args = append(args, s...)
 		case Path:
 			v, ok := item.Value()
 			if !ok {
@@ -139,4 +142,32 @@ func IsIn[T comparable](v T, s []T) bool {
 		}
 	}
 	return false
+}
+
+func IsEmpty(v []string) bool {
+	if len(v) == 0 {
+		return true
+	}
+	for _, s := range v {
+		if s != "" {
+			return false
+		}
+	}
+	return true
+}
+
+var commands = map[string]string{
+	"windows": "start",
+	"darwin":  "open",
+	"linux":   "xdg-open",
+}
+
+func OpenURI(uri string) error {
+	run, ok := commands[runtime.GOOS]
+	if !ok {
+		return fmt.Errorf("don't know how to open things on %s platform", runtime.GOOS)
+	}
+	
+	cmd := exec.Command(run, uri)
+	return cmd.Start()
 }

@@ -5,6 +5,7 @@ import (
 	"github.com/ying32/govcl/vcl/types"
 	"github.com/ying32/govcl/vcl/types/colors"
 	"os/exec"
+	"runtime"
 )
 
 type Page struct {
@@ -96,19 +97,17 @@ func InitUI() {
 		MainForm.RunButton.SetEnabled(false)
 		MainForm.RunButton.SetCaption("Doing···")
 		go func() {
-			defer func() {
-				vcl.ThreadSync(func() {
-					MainForm.RunButton.SetEnabled(true)
-					MainForm.RunButton.SetCaption("Run")
-				})
-			}()
 			err = cmd.Wait()
 			if err == nil {
 				vcl.ThreadSync(func() {
+					MainForm.RunButton.SetEnabled(true)
+					MainForm.RunButton.SetCaption("Run")
 					PopupInfoDialog("Done!")
 				})
 			} else {
 				vcl.ThreadSync(func() {
+					MainForm.RunButton.SetEnabled(true)
+					MainForm.RunButton.SetCaption("Run")
 					PopupErrorDialog(err.Error())
 				})
 			}
@@ -576,4 +575,17 @@ func InitMenu() {
 		sf.ShowModal()
 	})
 	MainForm.MainMenu.Items().Add(MainForm.SettingAction)
+	
+	MainForm.HelpAction = vcl.NewMenuItem(MainForm)
+	MainForm.HelpAction.SetCaption("Help")
+	MainForm.HelpAction.SetOnClick(func(sender vcl.IObject) {
+		if runtime.GOOS == "windows" {
+			OpenURI("./docs/help/contents.html")
+		} else if runtime.GOOS == "darwin" {
+			OpenURI("file://./docs/help/contents.html")
+		} else if runtime.GOOS == "linux" {
+			OpenURI("file://./docs/help/contents.html")
+		}
+	})
+	MainForm.MainMenu.Items().Add(MainForm.HelpAction)
 }
