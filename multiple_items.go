@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/ying32/govcl/vcl"
 	"github.com/ying32/govcl/vcl/types"
-	"slices"
 )
 
 type MultipleItems struct {
@@ -63,7 +62,7 @@ func (mi *MultipleItems) Append() {
 }
 
 func (mi *MultipleItems) Insert(at int) {
-	mi.Items = slices.Insert(mi.Items, at, NewMultipleItem(mi))
+	mi.Items = Insert(mi.Items, at, NewMultipleItem(mi))
 	mi.Update()
 }
 
