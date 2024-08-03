@@ -5,7 +5,6 @@ import (
 	"github.com/ying32/govcl/vcl/types"
 	"github.com/ying32/govcl/vcl/types/colors"
 	"os/exec"
-	"runtime"
 )
 
 type Page struct {
@@ -579,12 +578,8 @@ func InitMenu() {
 	MainForm.HelpAction = vcl.NewMenuItem(MainForm)
 	MainForm.HelpAction.SetCaption("Help")
 	MainForm.HelpAction.SetOnClick(func(sender vcl.IObject) {
-		if runtime.GOOS == "windows" {
-			OpenURI("./docs/help/contents.html")
-		} else if runtime.GOOS == "darwin" {
-			OpenURI("file://./docs/help/contents.html")
-		} else if runtime.GOOS == "linux" {
-			OpenURI("file://./docs/help/contents.html")
+		if err := OpenURI("./docs/help/contents.html"); err != nil {
+			PopupErrorDialog(err.Error() + "\nUnable to open the document, please open ./docs/help/contents.html manually.")
 		}
 	})
 	MainForm.MainMenu.Items().Add(MainForm.HelpAction)

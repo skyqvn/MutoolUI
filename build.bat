@@ -1,4 +1,4 @@
-go build -buildmode=exe -ldflags="-H windowsgui" -o ./app/MutoolUI.exe
+go build -buildmode=exe -ldflags="-H windowsgui -s -w" -o ./app/MutoolUI.exe
 copy .\bin\liblcl.dll .\app
 copy .\bin\mutool.exe .\app
 copy .\docs .\app
