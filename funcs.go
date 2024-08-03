@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"github.com/ying32/govcl/vcl"
 	"os/exec"
@@ -156,18 +157,18 @@ func IsEmpty(v []string) bool {
 	return true
 }
 
-var commands = map[string]string{
-	"windows": "start",
-	"darwin":  "open",
-	"linux":   "xdg-open",
-}
-
 func OpenURI(uri string) error {
-	run, ok := commands[runtime.GOOS]
-	if !ok {
-		return fmt.Errorf("don't know how to open things on %s platform", runtime.GOOS)
+	switch runtime.GOOS {
+	case "windows":
+		cmd := exec.Command("cmd", "/k", "start", uri)
+		return cmd.Start()
+	case "darwin":
+		cmd := exec.Command("open", uri)
+		return cmd.Start()
+	case "linux":
+		cmd := exec.Command("xdg-open", uri)
+		return cmd.Start()
+	default:
+		return errors.New(fmt.Sprintf("I dont know how to open files on %s system", runtime.GOOS))
 	}
-	
-	cmd := exec.Command(run, uri)
-	return cmd.Start()
 }
