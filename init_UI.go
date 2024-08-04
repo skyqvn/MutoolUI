@@ -143,7 +143,7 @@ func InitUI() {
 	draw1.Filter = DocumentFilter
 	draw2 := NewFileEdit(MainForm, Save)
 	draw2.Filter = ImageFilter
-	draw2.FileName = "out.png"
+	draw2.FileName = "out%d.png"
 	draw3 := vcl.NewEdit(MainForm)
 	draw3.SetColor(ControlColor)
 	draw3.SetNumbersOnly(true)
